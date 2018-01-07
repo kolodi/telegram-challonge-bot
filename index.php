@@ -32,7 +32,7 @@ $commands = array(
 $telegramAPI = new TG($telegram_token);
 $manualUpdate = false;
 $lastUpdate = $telegramAPI->GetLastUpdate($manualUpdate);
-file_put_contents("logs/log.txt", $lastUpdate + "\n\n", FILE_APPEND);
+file_put_contents("logs/log.txt", date("Y-m-d H:i:s") . ":\n" . $lastUpdate . "\n\n", FILE_APPEND);
 
 $telegram = json_decode($lastUpdate, true);
 if ($telegram == false)
@@ -83,7 +83,7 @@ if (isset($telegramMessage["entities"])) {
     }
 }
 
-$telegramCommand = str_replace("@setourbot", "", $telegramCommand);
+$telegramCommand = explode("@", $telegramCommand)[0];
 $telegramTextLowerTrimmed = trim(strtolower($telegramText));
 if (!$telegramCommand || !in_array($telegramCommand, $commands));
     //die("No command");
