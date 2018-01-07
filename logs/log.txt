@@ -1,0 +1,13 @@
+update: 
+
+update: 
+
+update: 
+
+update: 
+
+update: 
+
+{"update_id":335335750,
+"message":{"message_id":9,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":190257574,"first_name":"Kolodi","username":"kolodim","type":"private"},"date":1515330889,"text":"/help","entities":[{"offset":0,"length":5,"type":"bot_command"}]}}update: 
+

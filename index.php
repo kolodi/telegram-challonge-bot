@@ -5,7 +5,8 @@ include "challonge/challonge.class.php";
 /*****************************************
  * CONFIGURATION
  *****************************************/
-$telegram_token = "494619184:AAGgqciTKBa4nIs2QmpxX4ZXdqTJp8EmTdQ";
+//$telegram_token = "494619184:AAGgqciTKBa4nIs2QmpxX4ZXdqTJp8EmTdQ";
+$telegram_token = "459770662:AAG5ohLpUKZryoX6YirZZIlEcjmgSIItVhQ"; //popsebot
 //$challonge_token = "i1Sax3ehsAUmFiq1N4gvuxElYpnqGAzCzKqAppMt"; //Jeff
 $challonge_token = "iWTgKx1WNQ48AJ77JMZNSHHfiil64WA7tMCsb0oC"; //Kolodi
 $commands = array(
@@ -29,19 +30,33 @@ $commands = array(
  * VALIDATE INPUT
  *****************************************/
 $telegramAPI = new TG($telegram_token);
-$telegram = json_decode($telegramAPI->GetLastUpdate(), true);
+$manualUpdate = false;
+$lastUpdate = $telegramAPI->GetLastUpdate($manualUpdate);
+file_put_contents("logs/log.txt", $lastUpdate + "\n\n", FILE_APPEND);
+
+$telegram = json_decode($lastUpdate, true);
 if ($telegram == false)
     die("No Last Update");
-if ($telegram["ok"] == false)
-    die("Last Update Not OK");
-if ($telegram["result"] == false || count($telegram["result"]) == 0)
-    die("No result in update");
-if (isset($telegram["result"][0]["message"])) {
-    $telegramMessage = $telegram["result"][0]["message"];
-} elseif (isset($telegram["result"][0]["edited_message"])) {
-    $telegramMessage = $telegram["result"][0]["edited_message"];
+if($manualUpdate) {
+    if ($telegram["ok"] == false)
+        die("Last Update Not OK");
+    if ($telegram["result"] == false || count($telegram["result"]) == 0)
+        die("No result in update");
+    if (isset($telegram["result"][0]["message"])) {
+        $telegramMessage = $telegram["result"][0]["message"];
+    } elseif (isset($telegram["result"][0]["edited_message"])) {
+        $telegramMessage = $telegram["result"][0]["edited_message"];
+    } else {
+        die("Unknown message");
+    }
 } else {
-    die("Unknown message");
+    if (isset($telegram["message"])) {
+        $telegramMessage = $telegram["message"];
+    } elseif (isset($telegram["edited_message"])) {
+        $telegramMessage = $telegram["edited_message"];
+    } else {
+        die("Unknown message");
+    }
 }
 
 $telegramText = isset($telegramMessage["text"]) ? $telegramMessage["text"] : '';

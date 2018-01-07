@@ -115,20 +115,24 @@ class TG
         return $this->SendMessage($msg_string);
     }
 
-    public function GetLastUpdate()
+    public function GetLastUpdate($updateManual = true)
     {
         $result = false;
-        try {
-            $data = array("offset" => -1);
-            $data_string = json_encode($data);
-            $ch = $this->PrepareCurlPost($data_string, "/getUpdates");
-            $response = curl_exec($ch);
-            if (false === $response)
-                throw new Exception(curl_error($ch), curl_errno($ch));
-            else
-                $result = $response;
-        } catch (Exception $e) {
-            echo $e->getMessage();
+        if($updateManual) {
+            try {
+                $data = array("offset" => -1);
+                $data_string = json_encode($data);
+                $ch = $this->PrepareCurlPost($data_string, "/getUpdates");
+                $response = curl_exec($ch);
+                if (false === $response)
+                    throw new Exception(curl_error($ch), curl_errno($ch));
+                else
+                    $result = $response;
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        } else {
+            $result = file_get_contents("php://input");
         }
         return $result;
     }
