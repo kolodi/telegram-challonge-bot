@@ -5,10 +5,11 @@ include "challonge/challonge.class.php";
 /*****************************************
  * CONFIGURATION
  *****************************************/
-//$telegram_token = "494619184:AAGgqciTKBa4nIs2QmpxX4ZXdqTJp8EmTdQ"; //setourbot
 $telegram_token = "459770662:AAG5ohLpUKZryoX6YirZZIlEcjmgSIItVhQ"; //popsebot
-//$challonge_token = "i1Sax3ehsAUmFiq1N4gvuxElYpnqGAzCzKqAppMt"; //Jeff
 $challonge_token = "iWTgKx1WNQ48AJ77JMZNSHHfiil64WA7tMCsb0oC"; //Kolodi
+
+//$telegram_token = "494619184:AAGgqciTKBa4nIs2QmpxX4ZXdqTJp8EmTdQ"; //setourbot Test ONLY
+//$challonge_token = "i1Sax3ehsAUmFiq1N4gvuxElYpnqGAzCzKqAppMt"; //Jeff Test ONLY
 
 $commands = array(
     "/start",
@@ -124,7 +125,6 @@ switch ($telegramCommand) {
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
 
         break;
-
     case "/new_popup":
         // tournament can be created only in public room,
         // maybe even only in specific chat id of OOPS room
@@ -196,7 +196,6 @@ switch ($telegramCommand) {
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
 
         break;
-
     case "/join_popup":
 
         // tournament can be created only in public room,
@@ -270,7 +269,6 @@ switch ($telegramCommand) {
         }
 
         break;
-
     case "/participants":
 
         // init challonge
@@ -335,7 +333,6 @@ switch ($telegramCommand) {
         }
         
         break;
-
     case "/start_popup":
         $min_participants = 4;
 
@@ -398,7 +395,6 @@ switch ($telegramCommand) {
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
 
         break;
-
     case "/cancel_popup":
 
          // init challonge
@@ -450,7 +446,6 @@ switch ($telegramCommand) {
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
         
         break;
-
     case "/quit_popup":
 
         $challongeAPI = new ChallongeAPI($challonge_token);
@@ -495,10 +490,53 @@ switch ($telegramCommand) {
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
 
         break;
-
     case "/kick":
         //TODO: implement
-        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Undefined');
+        $challongeAPI = new ChallongeAPI($challonge_token);
+        $challongeAPI->GetTournamentsJSON();
+        $userCreatedTournaments = $challongeAPI->FilterTournamnets(array(
+            "creator" => $telegramUserId,
+            //"state" => "pending"
+        ));
+
+        if(count($userCreatedTournaments) == 0) {
+            $txt = "You are only allowed to /kick participant from your created tournaments";
+            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+            break;
+        }
+
+        if(count($userCreatedTournaments) > 1) {
+            //This is weird case, user can not have more than 1 pending popup
+            $txt = "Something gone wrong, multiple pending popups";
+            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+            break;
+        }
+
+        $popup = $userCreatedTournaments[0];
+        $popupName = $popup["name"];
+        $participants = $challongeAPI->GetParticipantsJSON($popup['id']);
+
+        $foundByName = false;
+        if(trim($telegramText) != ""){
+            $participant = $challongeAPI->GetParticipantByName($telegramText);
+            $foundByName = ($participant === false) ? false : true;
+        }
+
+        if(!$foundByName) {
+            $txt = "$popupName: Please choose from the list of participants : ";
+            $buttons = array();
+            foreach ($participants as $p) {
+                $buttons[] = "/kick " . $p["name"];
+            }
+            $debugOutput = $telegramAPI->SendPromptWithButtonsInColumn($telegramChatId, $txt, $telegramMessageId, $buttons);
+            break;
+        }
+
+        $participantId = $participant['id'];
+        $challonge_response = $challongeAPI->deleteParticipant($popup['id'], $participantId);
+        $txt = "You have kicked $telegramText from $popupName";
+        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+
         break;
     case "/opponent":
         //TODO: implement
@@ -656,12 +694,11 @@ switch ($telegramCommand) {
 
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Erorr confirm score');
         break;
-    case "/start":
-        //TODO: implement
+    case "/startxxx":
+        //TODO: implement /start -  Create new tournament
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Undefined');
         break;
     case "/popups":
-
         $challongeAPI = new ChallongeAPI($challonge_token);
         $tournaments = $challongeAPI->GetTournamentsJSON();
 
@@ -676,7 +713,7 @@ switch ($telegramCommand) {
 
         break;
     default:
-        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Undefined');
+        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Please use /help to list all possible commands');
 }
 
 
