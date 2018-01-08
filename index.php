@@ -5,10 +5,11 @@ include "challonge/challonge.class.php";
 /*****************************************
  * CONFIGURATION
  *****************************************/
-//$telegram_token = "494619184:AAGgqciTKBa4nIs2QmpxX4ZXdqTJp8EmTdQ";
+//$telegram_token = "494619184:AAGgqciTKBa4nIs2QmpxX4ZXdqTJp8EmTdQ"; //setourbot
 $telegram_token = "459770662:AAG5ohLpUKZryoX6YirZZIlEcjmgSIItVhQ"; //popsebot
 //$challonge_token = "i1Sax3ehsAUmFiq1N4gvuxElYpnqGAzCzKqAppMt"; //Jeff
 $challonge_token = "iWTgKx1WNQ48AJ77JMZNSHHfiil64WA7tMCsb0oC"; //Kolodi
+
 $commands = array(
     "/start",
     "/help",
@@ -660,8 +661,19 @@ switch ($telegramCommand) {
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Undefined');
         break;
     case "/popups":
-        //TODO: implement
-        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Undefined');
+
+        $challongeAPI = new ChallongeAPI($challonge_token);
+        $tournaments = $challongeAPI->GetTournamentsJSON();
+
+        $txt = "Popup Tournaments: ";
+        $counter = 1;
+        foreach($tournaments as $t){
+            $status = (strtolower($t['state']) == 'pending') ? "Pending" : "Started";
+            $url = $t['url'];
+            $txt .= "\n (" . $counter++ . ") <b>" . $t['name'] . "</b> [ <a href='http://challonge.com/$url'>$status</a> ]";
+        }
+        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
+
         break;
     default:
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Undefined');
