@@ -1,15 +1,11 @@
 <?php
+include "tokens.php";
 include "telegram/lib.php";
 include "challonge/challonge.class.php";
 
 /*****************************************
  * CONFIGURATION
  *****************************************/
-$telegram_token = "459770662:AAG5ohLpUKZryoX6YirZZIlEcjmgSIItVhQ"; //popsebot
-$challonge_token = "iWTgKx1WNQ48AJ77JMZNSHHfiil64WA7tMCsb0oC"; //Kolodi
-
-//$telegram_token = "494619184:AAGgqciTKBa4nIs2QmpxX4ZXdqTJp8EmTdQ"; //setourbot Test ONLY
-//$challonge_token = "i1Sax3ehsAUmFiq1N4gvuxElYpnqGAzCzKqAppMt"; //Jeff Test ONLY
 
 $commands = array(
     "/start",
@@ -91,29 +87,6 @@ if (!$telegramCommand || !in_array($telegramCommand, $commands));
     //die("No command");
 
 
-/*****************************************
- * RESOURCES
- *****************************************/
-
-
-
-
-/*****************************************
- * DEBUG
- *****************************************/
-//echo "<pre><br />\$telegramChatId => $telegramChatId";
-//echo "<pre><br />";print_r($telegram);
-//echo "<pre><br />\$telegramMessage => "; print_r($telegramMessage);
-//echo "<pre><br />\$telegramMessageId => $telegramMessageId ";
-//echo "<pre><br />\$telegramUser => "; print_r($telegramUser);
-//echo "<pre><br />\$telegramText => $telegramText";
-//echo "<pre><br />\$telegramCommand => $telegramCommand";
-//echo "<pre><br />";print_r($challongeTournamentMapByName);    //array['lower_tournament_name' => index]
-//echo "<pre><br />";print_r($challongeTournaments);            //array('index' => tournaments)
-//echo "<pre><br />";print_r($challongePending);                //array('index')
-//echo "<pre><br />";print_r($challongeInProgress);             //array('index')
-//echo "<pre><br />";print_r($sessionData);
-//die;
 /*****************************************
  * Command Definition
  *****************************************/
