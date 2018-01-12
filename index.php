@@ -28,7 +28,7 @@ $commands = array(
  * VALIDATE INPUT
  *****************************************/
 $telegramAPI = new TG($telegram_token);
-$manualUpdate = false;
+$manualUpdate = true;
 $lastUpdate = $telegramAPI->GetLastUpdate($manualUpdate);
 file_put_contents("logs/log.txt", date("Y-m-d H:i:s") . ":\n" . $lastUpdate . "\n\n", FILE_APPEND);
 
@@ -163,9 +163,8 @@ switch ($telegramCommand) {
         }
 
         // here we are free of errors
-
-        $txt = "Popup $popupName has been created ".
-            "\nplese click on /join_popup to joint it";
+        $txt = "#popup_created: Popup $popupName has been created ".
+            "\nplese click on /join_popup to join it";
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
 
         break;
@@ -237,7 +236,7 @@ switch ($telegramCommand) {
             $txt = "Server Error";
             $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
         } else {
-            $txt = $telegramUser['first_name'] . " joined the popup " . $popup["name"];
+            $txt = $telegramUser['first_name'] . " #joined_popup " . $popup["name"];
             $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
         }
 
@@ -295,7 +294,7 @@ switch ($telegramCommand) {
             $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
         }else{
             $counter = 1;
-            $txt = "$telegramText participants: ";
+            $txt = "$telegramText #participants: ";
             foreach($participants as $participant) {
                 $txt .= "\n (" . $counter . ") " . $participant['name'];
                 $counter++;
@@ -362,7 +361,7 @@ switch ($telegramCommand) {
         // here we are free of errors
 
         $url = $popup['url'];
-        $txt = "Popup has now been started, GLHF to all! " .
+        $txt = "#popup_started, GLHF to all! " .
             "\nTo display results run /popup_results command. " .
             "\nhttp://challonge.com/$url";
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
@@ -415,7 +414,7 @@ switch ($telegramCommand) {
 
         // Here we have successfully deleted the tournamnet
         
-        $txt = "Popup $popupName has been cancelled and deleted";
+        $txt = "You have #cancelled_popup $popupName";
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
         
         break;
@@ -459,7 +458,7 @@ switch ($telegramCommand) {
         $participantId = $popup['participant_id'];
 
         $challonge_response = $challongeAPI->deleteParticipant($popup['id'], $participantId);
-        $txt = "You have quit popup $popupName";
+        $txt = "You have #quit_popup $popupName";
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
 
         break;
@@ -507,7 +506,7 @@ switch ($telegramCommand) {
 
         $participantId = $participant['id'];
         $challonge_response = $challongeAPI->deleteParticipant($popup['id'], $participantId);
-        $txt = "You have kicked $telegramText from $popupName";
+        $txt = "You have #kicked $telegramText from $popupName";
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
 
         break;
@@ -523,7 +522,7 @@ switch ($telegramCommand) {
             $opponent_participant = $challongeAPI->GetOpponentInMatch($lastMatch, $lastMatch["user_participant"]["id"]);
             if($opponent_participant != false)
             {
-                $txt = "Your opponent is " . $opponent_participant["name"];
+                $txt = "Your #opponent is " . $opponent_participant["name"];
                 $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
                 break;
             }
@@ -533,7 +532,87 @@ switch ($telegramCommand) {
         break;
     case "/popup_results":
         //TODO: implement
-        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Undefined');
+        $challongeAPI = new ChallongeAPI($challonge_token);
+        $tournaments = $challongeAPI->GetTournamentsJSON();
+
+        if(count($tournaments) == 0) {
+            $txt = "There is no pending popup, you can create one using /new_popup command";
+            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+            break;
+        }
+
+        $popup = $tournaments[0];
+        if(count($tournaments) > 1) {
+            $foundByName = false;
+            if($telegramTextLowerTrimmed != "") {
+                $t = $challongeAPI->GetTournamentByName($telegramTextLowerTrimmed, $tournaments);
+                if($t)  {
+                    $popup = $t;
+                    $foundByName = true;
+                }
+            }
+            if($foundByName == false) {
+                $txt = "Please choose from the list of popups to see the results: ";
+                $buttons = array();
+                foreach ($tournaments as $t) {
+                    $buttons[] = "/popup_results " . $t["name"];
+                }
+                $debugOutput = $telegramAPI->SendPromptWithButtonsInColumn($telegramChatId, $txt, $telegramMessageId, $buttons);
+                break;
+            }
+        }
+
+        $results = $challongeAPI->GetTournamentResults($popup["id"]);
+        $popupName = $popup["name"];
+        $popupUrl = $popup["url"];
+        $popupCompletedAt = $popup["completed_at"];
+        $popupState = $popup["state"];
+        $popupChampion = "";
+        $popupAdversary = "";
+        if(count($results) > 0) {
+            if(count($results['matches']) > 0){
+                $txt = "#popup_results of <a href='http://challonge.com/$popupUrl'>$popupName</a> ";
+                foreach($results['matches'] as $match) {
+                    $round = str_pad($match['round'], 2, '0', STR_PAD_LEFT);
+                    $player1_name = $match['player1_name'];
+                    $player2_name = $match['player2_name'];
+                    if($match['player1_name'] == $match['winner_name']) {
+                        $popupChampion = $player1_name;
+                        $popupAdversary = $player2_name;
+                        $player1_name = "<b>$player1_name</b>";
+                    }elseif($match['player2_name'] == $match['winner_name']){
+                        $popupChampion = $player2_name;
+                        $popupAdversary = $player1_name;
+                        $player2_name = "<b>$player2_name</b>";
+                    }
+
+                    $score = (trim($match['scores']) != "" ? $match['scores'] : 'Default');
+
+                    if($match['state'] == 'complete') {
+                        $txt .= "\n Round $round : " . $player1_name . " vs " . $player2_name . " <i>(Score: ".$score.")</i> ";
+                    }else{
+                        $txt .= "\n Round $round : " . $player1_name . " vs " . $player2_name . " <i>(Status: Pending)</i>";
+                    }
+                }
+                if(trim($popupCompletedAt) != "" && $popupChampion != "") {
+                    $txt .= "\n\n<b>SUPREME CHAMPION: $popupChampion </b>";
+                    $txt .= "\n<i>Worthy Adversary: $popupAdversary</i>";
+                }elseif($popupState == "awaiting_review"){
+                    $txt .= "\nTournament Awaiting for Review";
+                }
+
+                $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
+
+            }else{
+                $txt = "No results yet for $popupName ";
+                $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+            }
+        }else{
+            $txt = "Server Error";
+            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+            break;
+        }
+
         break;
     case "/report_score":
         
@@ -567,7 +646,7 @@ switch ($telegramCommand) {
         $userScore = intval($scores[0]);
         $opponentScore = intval($scores[1]);
         if($userScore == 0 &&$opponentScore == 0) {
-            $txt = "/report_score, 0-0 is not vaid score, please provide another score";
+            $txt = "/report_score, 0-0 is not valid score, please provide another score";
             $debugOutput = $telegramAPI->SendPromptMessage($telegramChatId, $txt, $telegramMessageId);
             break;
         }
@@ -604,7 +683,7 @@ switch ($telegramCommand) {
         $challongeAPI->updateMatch($lastMatch["tournament_id"], $lastMatch["id"], $reportParameters);
         if($challongeAPI->hasErrors() == false) {
 
-            $txt = "Score has been reported! ";
+            $txt = "#Score has been reported! ";
             if($userIsWinner) {
                 $txt .= $userParticipant["name"] . " claims to win the match, "
                 . $opponentParticipant["name"] . " please /confirm_score";
@@ -655,7 +734,7 @@ switch ($telegramCommand) {
         $winnerParticipant = $challongeAPI->GetParticipantById($winnerId);
         if($challongeAPI->hasErrors() == false) {
 
-            $txt = "Score has been confirmed! ";
+            $txt = "Score has been #confirmed! ";
             $txt .= $winnerParticipant["name"] . " won the match";
 
             //TODO: check tournament status, if it was finals - display appropriate message
@@ -665,7 +744,7 @@ switch ($telegramCommand) {
             break;
         }
 
-        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Erorr confirm score');
+        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, 'Error confirm score');
         break;
     case "/startxxx":
         //TODO: implement /start -  Create new tournament
@@ -675,7 +754,7 @@ switch ($telegramCommand) {
         $challongeAPI = new ChallongeAPI($challonge_token);
         $tournaments = $challongeAPI->GetTournamentsJSON();
 
-        $txt = "Popup Tournaments: ";
+        $txt = "#Popup Tournaments: ";
         $counter = 1;
         foreach($tournaments as $t){
             $status = (strtolower($t['state']) == 'pending') ? "Pending" : "Started";

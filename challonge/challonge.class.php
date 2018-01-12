@@ -213,6 +213,15 @@ class ChallongeAPI {
     return $this->makeCall("tournaments/$tournament_id/matches/$match_id", $params, "put");
   }
 
+  public function getAllResults($tournament_id)
+  {
+    $params = array(
+      'include_matches' => 1,
+      'include_participants' => 1
+    );
+    return  $this->makeCall("tournaments/$tournament_id", $params, "get");
+  }
+
   public function hasErrors()
   {
       return count($this->errors) > 0 ? true : false;
@@ -433,6 +442,59 @@ class ChallongeAPI {
       
     }
     return false;
+  }
+
+  public function GetTournamentResults($tournament_id)
+  {
+    $tournament = $this->getAllResults($tournament_id);
+
+    $tournament_name = "";
+    $tournament_status = "";
+    $tournament_players = array();
+    $tournament_matches = array();
+    if($tournament) {
+      $tournament_name = $tournament->name."";
+      $tournament_status = $tournament->state."";
+
+      if(isset($tournament->participants->participant)) {
+        foreach($tournament->participants->participant as $participant) {
+          $tournament_players[$participant->id.""] = array(
+             'id' => $participant->id.""
+            ,'name' => $participant->name.""
+          );
+        }
+      }
+
+      if(isset($tournament->matches->match)) {
+        foreach($tournament->matches->match as $match) {
+          $p1 = $match->{'player1-id'}."";
+          $p2 = $match->{'player2-id'}."";
+          $p1_name = isset($tournament_players[$p1]['name']) ?$tournament_players[$p1]['name'] : '';
+          $p2_name = isset($tournament_players[$p2]['name']) ?$tournament_players[$p2]['name'] : '';
+          $tournament_matches[$match->id.""] = array(
+             'player1_id' => $p1
+            ,'player1_name' => $p1_name
+            ,'player2_id' => $p2
+            ,'player2_name' => $p2_name
+            ,'winner_id' =>  $match->{'winner-id'}.""
+            ,'winner_name' => ($match->{'winner-id'} == $p1 ? $p1_name : $p2_name)
+            ,'loser_id' => $match->{'loser-id'}.""
+            ,'loser_name' => ($match->{'loser-id'} == $p1 ? $p1_name : $p2_name)
+            ,'scores' => $match->{'scores-csv'} .""
+            ,'state' => $match->state.""
+            ,'round' => $match->round.""
+          );
+        }
+      }
+
+    }
+
+    return array(
+       'tournament_name' => $tournament_name
+      ,'participants' => $tournament_players
+      ,'matches'  => $tournament_matches
+    );
+
   }
 
 }
