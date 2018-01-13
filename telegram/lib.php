@@ -111,7 +111,7 @@ class TG
     		$chat_id,
             $this->escapeSpecialChars($text),
     		$reply_to_message_id, 
-    		new ReplyKeyboardRemove()
+    		new ReplyKeybordRemove()
     	);
     	$msg_string = json_encode($msg);
         return $this->SendMessage($msg_string);

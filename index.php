@@ -8,6 +8,7 @@ include "challonge/challonge.class.php";
  *****************************************/
 
 $commands = array(
+    "/cancel",
     "/start",
     "/help",
     "/new_popup",
@@ -68,6 +69,12 @@ if (!$telegramCommand || !in_array($telegramCommand, $commands));
 
 $debugOutput = "";
 switch ($telegramCommand) {
+    case "/cancel":
+        // this is a command to get rid of any eventual state and remove keyboard for user
+        $debugOutput = $telegramAPI->SendRemoveKeyboardMessage($telegramChatId, "Action cancelled", $telegramMessageId);
+
+        break;
+
     case "/help":
         $txt = file_get_contents("popup_help.txt");
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
