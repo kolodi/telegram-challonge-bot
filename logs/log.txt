@@ -114,3 +114,40 @@
 {"update_id":335335791,
 "message":{"message_id":1062,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1515332135,"text":"/popups@popsebot","entities":[{"offset":0,"length":16,"type":"bot_command"}]}}
 
+2018-01-13 12:02:22:
+{"ok":false,"error_code":404,"description":"Not Found"}
+
+2018-01-13 12:04:40:
+{"ok":false,"error_code":409,"description":"Conflict: can't use getUpdates method while webhook is active"}
+
+2018-01-13 12:04:59:
+{"ok":false,"error_code":409,"description":"Conflict: can't use getUpdates method while webhook is active"}
+
+2018-01-13 12:11:20:
+{"ok":true,"result":[{"update_id":444912287,
+"message":{"message_id":1103,"from":{"id":487242842,"is_bot":false,"first_name":"SD Jeff","username":"ArcaneGod","language_code":"en-SG"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1515831535,"reply_to_message":{"message_id":1102,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1515831423,"edit_date":1515831430,"text":"I like more /end_popup","entities":[{"offset":12,"length":10,"type":"bot_command"}]},"text":"Thats better to match start_popup ;)"}}]}
+
+2018-01-13 12:11:49:
+{"ok":true,"result":[{"update_id":444912288,
+"message":{"message_id":357,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":190257574,"first_name":"Kolodi","username":"kolodim","type":"private"},"date":1515841904,"text":"/help","entities":[{"offset":0,"length":5,"type":"bot_command"}]}}]}
+
+2018-01-13 12:12:44:
+{"ok":true,"result":[{"update_id":444912289,
+"message":{"message_id":359,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":190257574,"first_name":"Kolodi","username":"kolodim","type":"private"},"date":1515841960,"text":"/popups","entities":[{"offset":0,"length":7,"type":"bot_command"}]}}]}
+
+2018-01-13 12:14:37:
+{"ok":true,"result":[{"update_id":444912290,
+"message":{"message_id":361,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":190257574,"first_name":"Kolodi","username":"kolodim","type":"private"},"date":1515842071,"text":"/join_popup","entities":[{"offset":0,"length":11,"type":"bot_command"}]}}]}
+
+2018-01-13 12:15:17:
+{"ok":true,"result":[{"update_id":444912290,
+"message":{"message_id":361,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":190257574,"first_name":"Kolodi","username":"kolodim","type":"private"},"date":1515842071,"text":"/join_popup","entities":[{"offset":0,"length":11,"type":"bot_command"}]}}]}
+
+2018-01-13 12:15:34:
+{"ok":true,"result":[{"update_id":444912291,
+"message":{"message_id":364,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":190257574,"first_name":"Kolodi","username":"kolodim","type":"private"},"date":1515842129,"text":"/participants","entities":[{"offset":0,"length":13,"type":"bot_command"}]}}]}
+
+2018-01-13 12:16:10:
+{"ok":true,"result":[{"update_id":444912292,
+"message":{"message_id":366,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":190257574,"first_name":"Kolodi","username":"kolodim","type":"private"},"date":1515842165,"text":"/participants AHsAN0 Pop Up 37","entities":[{"offset":0,"length":13,"type":"bot_command"}]}}]}
+

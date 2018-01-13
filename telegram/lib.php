@@ -4,11 +4,13 @@ class TG
 {
     public $bot_token = ""; // set  
     private $apiWithToken;
+    private $debugMode;
 
-    function __construct($_bot_token)
+    function __construct($_bot_token, $debugMode = false)
     {
         $this->bot_token = $_bot_token;
         $this->apiWithToken = API_PATH . $_bot_token;
+        $this->debugMode = $debugMode;
     }
     public function CreateJSON($obj)
     {
@@ -135,6 +137,40 @@ class TG
             $result = file_get_contents("php://input");
         }
         return $result;
+    }
+
+    public function GetTelegramMessage($manualUpdate) {
+        $lastUpdate = $this->GetLastUpdate($manualUpdate);
+
+        if($this->debugMode)
+            file_put_contents("logs/log.txt", date("Y-m-d H:i:s") . ":\n" . $lastUpdate . "\n\n", FILE_APPEND);
+
+        $telegram = json_decode($lastUpdate, true);
+        if ($telegram == false)
+            die("No Last Update");
+        if($manualUpdate) {
+            if ($telegram["ok"] == false)
+                die("Last Update Not OK");
+            if ($telegram["result"] == false || count($telegram["result"]) == 0)
+                die("No result in update");
+            if (isset($telegram["result"][0]["message"])) {
+                $telegramMessage = $telegram["result"][0]["message"];
+            } elseif (isset($telegram["result"][0]["edited_message"])) {
+                $telegramMessage = $telegram["result"][0]["edited_message"];
+            } else {
+                die("Unknown message");
+            }
+        } else {
+            if (isset($telegram["message"])) {
+                $telegramMessage = $telegram["message"];
+            } elseif (isset($telegram["edited_message"])) {
+                $telegramMessage = $telegram["edited_message"];
+            } else {
+                die("Unknown message");
+            }
+        }
+
+        return $telegramMessage;
     }
 
     function PrepareCurlPost($data_string, $method)

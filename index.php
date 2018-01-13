@@ -27,35 +27,10 @@ $commands = array(
 /*****************************************
  * VALIDATE INPUT
  *****************************************/
-$telegramAPI = new TG($telegram_token);
+$debugMode = true;
+$telegramAPI = new TG($telegram_token, $debugMode);
 $manualUpdate = true;
-$lastUpdate = $telegramAPI->GetLastUpdate($manualUpdate);
-file_put_contents("logs/log.txt", date("Y-m-d H:i:s") . ":\n" . $lastUpdate . "\n\n", FILE_APPEND);
-
-$telegram = json_decode($lastUpdate, true);
-if ($telegram == false)
-    die("No Last Update");
-if($manualUpdate) {
-    if ($telegram["ok"] == false)
-        die("Last Update Not OK");
-    if ($telegram["result"] == false || count($telegram["result"]) == 0)
-        die("No result in update");
-    if (isset($telegram["result"][0]["message"])) {
-        $telegramMessage = $telegram["result"][0]["message"];
-    } elseif (isset($telegram["result"][0]["edited_message"])) {
-        $telegramMessage = $telegram["result"][0]["edited_message"];
-    } else {
-        die("Unknown message");
-    }
-} else {
-    if (isset($telegram["message"])) {
-        $telegramMessage = $telegram["message"];
-    } elseif (isset($telegram["edited_message"])) {
-        $telegramMessage = $telegram["edited_message"];
-    } else {
-        die("Unknown message");
-    }
-}
+$telegramMessage = $telegramAPI->GetTelegramMessage($manualUpdate);
 
 $telegramText = isset($telegramMessage["text"]) ? $telegramMessage["text"] : '';
 $telegramUser = $telegramMessage["from"];
@@ -101,7 +76,7 @@ switch ($telegramCommand) {
     case "/new_popup":
         // tournament can be created only in public room,
         // maybe even only in specific chat id of OOPS room
-        if ($isPrivateChat) {
+        if (!$debugMode && $isPrivateChat) {
             $txt = "Popup can only be created in public chat";
             $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
             break;
@@ -162,7 +137,7 @@ switch ($telegramCommand) {
 
         // tournament can be created only in public room,
         // maybe even only in specific chat id of OOPS room
-        if ($isPrivateChat) {
+        if (!$debugMode && $isPrivateChat) {
             $txt = "You can join a popup only in public chat";
             $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
             break;
