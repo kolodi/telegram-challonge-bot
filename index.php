@@ -13,6 +13,7 @@ $commands = array(
     "/help",
     "/new_popup",
     "/start_popup",
+    "/end_popup",
     "/close",
     "/cancel_popup",
     "/join_popup",
@@ -219,32 +220,36 @@ switch ($telegramCommand) {
         $challongeAPI = new ChallongeAPI($challonge_token);
         // get all tournaments
         // TODO: get tournamnets for only last 24 hours
-        $challongeAPI->GetTournamentsJSON();
+
+        $params = array();
+        // get only first pending participants in case nothing was specified after /participants command,
+        // user should type something after command in order to get list of all popups names
+        if(!$telegramText)
+            $params["state"] = "pending";
+        $challongeAPI->GetTournamentsJSON($params);
 
         $challongeTournaments = $challongeAPI->lastTournaments;
 
         if(count($challongeTournaments) == 0) {
-            $txt = "There is no popups, you can create one using /new_popup command";
+            $txt = "There is no pending popups, you can create one using /new_popup command or type popup name after the command";
             $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
             break;
         }
 
         $popup = $challongeTournaments[0];
-        if(count($challongeTournaments) > 1) {
-            $foundByName = false;
-            if($telegramTextLowerTrimmed != "") {
-                $t = $challongeAPI->GetTournamentByName($telegramTextLowerTrimmed);
-                if($t)  {
-                    $popup = $t;
-                    $foundByName = true;
-                }
+        if(count($challongeTournaments) > 1 && $telegramTextLowerTrimmed != "") {
+            $t = $challongeAPI->GetTournamentByName($telegramTextLowerTrimmed);
+            if($t)  {
+                $popup = $t;
             }
-            if($foundByName == false) {
+            else
+            {
                 $txt = "Please choose from the list of tournaments to display /participants: ";
                 $buttons = array();
                 foreach ($challongeTournaments as $t) {
                     $buttons[] = "/participants " . $t["name"];
                 }
+                $buttons[] = "/cancel";
                 $debugOutput = $telegramAPI->SendPromptWithButtonsInColumn($telegramChatId, $txt, $telegramMessageId, $buttons);
                 break;
             }
