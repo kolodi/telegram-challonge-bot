@@ -98,19 +98,21 @@ switch ($telegramCommand) {
             "state" => "pending"
         ));
 
-        if(count($pendingTournaments)>1) {
-            $popupName = $pendingTournaments[0]["name"];
-            $txt = "There is already at least one pending popup, please /join_popup";
-            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
-            break;
+        if($pendingTournaments) {
+            if(count($pendingTournaments)>1) {
+                $popupName = $pendingTournaments[0]["name"];
+                $txt = "There is already at least one pending popup, please /join_popup";
+                $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+                break;
+            }
+            
         }
-
-        if($telegramTextLowerTrimmed == "") {
+        
+        if(!$telegramTextLowerTrimmed) {
             $txt = "/new_popup, please specify popup name:";
             $debugOutput = $telegramAPI->SendPromptMessage($telegramChatId, $txt, $telegramMessageId);
             break;
         }
-
         // Here we have 0 pending popupos for the user, so we can proceed for creating new one
 
         
@@ -344,6 +346,81 @@ switch ($telegramCommand) {
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
 
         break;
+
+    case "/end_popup":
+        
+        // init challonge
+        $challongeAPI = new ChallongeAPI($challonge_token);
+        // get all tournaments
+        // TODO: get tournamnets for only last 24 hours
+        $challongeAPI->GetTournamentsJSON();
+
+        $userTournaments = $challongeAPI->FilterTournamnets(array(
+            "creator" => $telegramUserId
+        ));
+
+        if(count($userTournaments) == 0) {
+            $txt = "You have no running popup";
+            $txt .= ", please /create_popup or /join_popup";
+            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+            break;
+        }
+
+        $awaitingForReview = $challongeAPI->FilterTournamnets(array(
+            "creator" => $telegramUserId,
+            "state" => "awaiting_review"
+        ));
+
+        if(count($awaitingForReview) > 0) {
+
+            $popup = $awaitingForReview[0];
+            $tournament = $challongeAPI->FinalizeTournament($popup["id"]);
+
+            if($challongeAPI->hasErrors()) {
+                $txt = $challongeAPI->errors[0];
+                $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+                break; 
+            }
+    
+            // TODO: generate popup report.
+            $txt = "Popup is finished now #popup_ended";
+            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+            break;
+        }
+
+        
+        $underwayTournaments = $challongeAPI->FilterTournamnets(array(
+            "creator" => $telegramUserId,
+            "state" => "underway"
+        ));
+
+        if(count($underwayTournaments) > 0) {
+            $txt = "Your popup has not all matches yet finished";
+            $txt .= ", /popup_results to see all reported results";
+            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+            break;
+        }
+
+        $underwayTournaments = $challongeAPI->FilterTournamnets(array(
+            "creator" => $telegramUserId,
+            "state" => "pending"
+        ));
+
+        if(count($underwayTournaments) > 0) {
+            $txt = "Your popup has not been started yet";
+            $txt .= ", please /start_popup";
+            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+            break;
+        }
+
+        // here user has tournamnet but they are not in underway or waiting for review
+        $txt = "Your have not running popup";
+        $txt .= ", please use commands /join_popup or /new_popup";
+        $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
+        break;
+
+        break;
+
     case "/cancel_popup":
 
          // init challonge
@@ -425,6 +502,7 @@ switch ($telegramCommand) {
             foreach ($tournamentsByUser as $t) {
                 $buttons[] = "/quit_popup " . $t["name"];
             }
+            $buttons[] = "/cancel";
             $debugOutput = $telegramAPI->SendPromptWithButtonsInColumn($telegramChatId, $txt, $telegramMessageId, $buttons);
             break;
         }

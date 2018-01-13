@@ -247,6 +247,9 @@ class ChallongeAPI {
     if ($result)
       $assocArray = json_decode($result, true);
 
+    if(isset($assocArray["tournaments"])) {
+      return false;
+    }
     $this->lastTournaments = array();
     if ($assocArray && count($assocArray)) {
       foreach ($assocArray as $element) {
@@ -495,6 +498,47 @@ class ChallongeAPI {
       ,'matches'  => $tournament_matches
     );
 
+  }
+
+  function PrepareCurlPost($data_string, $url)
+  {
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+          'Content-Type: application/json',
+          'Content-Length: ' . strlen($data_string)
+      ));
+      return $ch;
+  }
+
+  public function FinalizeTournament($tournament_id) {
+    
+    $result = false;
+
+    try {
+      $data = array("api_key" => $this->api_key);
+      $data_string = json_encode($data);
+      $ch = $this->PrepareCurlPost($data_string, "https://api.challonge.com/v1/tournaments/$tournament_id/finalize.json");
+      $response = curl_exec($ch);
+      if (false === $response)
+          throw new Exception(curl_error($ch), curl_errno($ch));
+      else
+          $result = $response;
+    } catch (Exception $e) {
+      $this->errors[] = $e->getMessage();
+    }
+
+    if ($result)
+      $assocArray = json_decode($result, true);
+
+    if(isset($assocArray["errors"])) {
+      $this->errors = array_merge($this->errors, $assocArray["errors"]);
+      return false;
+    }
+
+    return true;
   }
 
 }
