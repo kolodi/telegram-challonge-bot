@@ -137,23 +137,13 @@ switch ($telegramCommand) {
         $challongeAPI = new ChallongeAPI($challonge_token);
         // get all tournaments
         // TODO: get tournamnets for only last 24 hours
-        $challongeAPI->GetTournamentsJSON();
-
-        // filter for only pending tournaments created by user
-        $userPendingTournaments = $challongeAPI->FilterTournamnets(array(
-            "creator" => $telegramUserId,
+        $pendingTournaments = $challongeAPI->GetTournamentsJSON(array(
             "state" => "pending"
         ));
 
-        if(count($userPendingTournaments) == 1) {
-            $popupName = $userPendingTournaments[0]["name"];
-            $txt = "You already have pending popup: $popupName, plese /start_popup or cancel before creating new one";
-            $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
-            break;
-        }
-        if(count($userPendingTournaments) > 1) {
-            //This is weird case, user can not have more than 1 pending popup
-            $txt = "Something gone wrong, multiple pending popups";
+        if(count($pendingTournaments)>1) {
+            $popupName = $pendingTournaments[0]["name"];
+            $txt = "There is already at least one pending popup, please /join_popup";
             $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt);
             break;
         }
