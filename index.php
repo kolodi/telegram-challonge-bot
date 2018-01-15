@@ -186,6 +186,7 @@ switch ($telegramCommand) {
                 foreach ($pendingTournaments as $t) {
                     $buttons[] = "/join_popup " . $t["name"];
                 }
+                $buttons[] = "/cancel";
                 $debugOutput = $telegramAPI->SendPromptWithButtonsInColumn($telegramChatId, $txt, $telegramMessageId, $buttons);
                 break;
             }
@@ -555,6 +556,7 @@ switch ($telegramCommand) {
             foreach ($participants as $p) {
                 $buttons[] = "/kick " . $p["name"];
             }
+            $buttons[] = "/cancel";
             $debugOutput = $telegramAPI->SendPromptWithButtonsInColumn($telegramChatId, $txt, $telegramMessageId, $buttons);
             break;
         }
@@ -612,6 +614,7 @@ switch ($telegramCommand) {
                 foreach ($tournaments as $t) {
                     $buttons[] = "/popup_results " . $t["name"];
                 }
+                $buttons[] = "/cancel";
                 $debugOutput = $telegramAPI->SendPromptWithButtonsInColumn($telegramChatId, $txt, $telegramMessageId, $buttons);
                 break;
             }
