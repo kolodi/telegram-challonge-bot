@@ -254,11 +254,12 @@ class ChallongeAPI {
     if ($assocArray && count($assocArray)) {
       foreach ($assocArray as $element) {
         $t = $element["tournament"];
-        $creator = explode("_", $t["url"])[0];
+        $urlData = explode("_", $t["url"]);
         $this->lastTournaments[] = array_merge(
           $t,
           array(
-            "creator" => $creator
+            "creator" => isset($urlData[0]) ? $urlData[0] : "unknown",
+            "chat" => isset($urlData[1]) ? $urlData[1] : "unknown"
           )
         );
       }

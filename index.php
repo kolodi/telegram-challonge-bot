@@ -117,7 +117,7 @@ switch ($telegramCommand) {
 
         
 
-        $url = $telegramUserId . "_" . uniqid();
+        $url = $telegramUserId . "_" . $telegramChatId . "_" . uniqid();
         $popupName = trim($telegramText);
         $popup_params = array(
             "tournament" => array(
@@ -202,10 +202,14 @@ switch ($telegramCommand) {
             }
         }
 
+        
         // Here we have valid $popup to join
+        // TODO: better separator for user data in misc
+        // prompt for IGN
         $challonge_response = $challongeAPI->createParticipant($popup["id"], array(
             "participant" => array(
-                "name" => $telegramUser['first_name']
+                "name" => $telegramUser['first_name'],
+                "misc" => $telegramUserId . "_" . $telegtamUser["first_name"] . "_" . $telegtamUser["username"]
             )
         ));
         if ($challongeAPI->hasErrors()) {
