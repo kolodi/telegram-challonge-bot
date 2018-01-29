@@ -39,6 +39,7 @@ $telegramUser = $telegramMessage["from"];
 $telegramUserId = $telegramUser["id"];
 $telegramChatId = $telegramMessage["chat"]["id"];
 $telegramMessageId = $telegramMessage['message_id'];
+$telegramSpecialCharsConversion = array("-" => "m");
 $isPrivateChat = $telegramMessage["chat"]["type"] == "private";
 $telegramCommand = "";
 
@@ -115,9 +116,8 @@ switch ($telegramCommand) {
         }
         // Here we have 0 pending popupos for the user, so we can proceed for creating new one
 
-        
-
-        $url = $telegramUserId . "_" . $telegramChatId . "_" . uniqid();
+        $telegramChatIdForUrl = str_replace(array_keys($telegramSpecialCharsConversion), $telegramSpecialCharsConversion, $telegramChatId);
+        $url = $telegramUserId . "_" . $telegramChatIdForUrl . "_" . uniqid();
         $popupName = trim($telegramText);
         $popup_params = array(
             "tournament" => array(
@@ -139,7 +139,7 @@ switch ($telegramCommand) {
 
         // here we are free of errors
         $txt = "#popup_created: Popup $popupName has been created ".
-            "\nplese click on /join_popup to join it";
+            "\nplease click on /join_popup to join it";
         $debugOutput = $telegramAPI->SendSimpleMessage($telegramChatId, $txt, true, 'HTML');
 
         break;
