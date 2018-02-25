@@ -61,8 +61,16 @@ if (isset($telegramMessage["entities"])) {
 
 $telegramCommand = explode("@", $telegramCommand)[0];
 $telegramTextLowerTrimmed = trim(strtolower($telegramText));
-if (!$telegramCommand || !in_array($telegramCommand, $commands));
-    //die("No command");
+if (!$telegramCommand || !in_array($telegramCommand, $commands)) {
+    die("No command");
+}
+
+
+/*****************************************
+ * Session
+ *****************************************/
+// TODO: set session timeout in server settings to something like 6-24 hours
+
 
 
 /*****************************************
