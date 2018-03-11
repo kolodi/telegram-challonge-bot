@@ -1,0 +1,16 @@
+{
+    "telegram_user": {
+        "id": 190257574,
+        "is_bot": false,
+        "first_name": "Kolodi",
+        "username": "kolodim",
+        "language_code": "en-GB"
+    },
+    "challonge_user": {
+
+    },
+    "tournaments": {
+        "current": []
+    },
+    "trophies": []
+}

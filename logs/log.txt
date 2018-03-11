@@ -1,0 +1,32 @@
+2018-03-10 13:35:12:
+{"ok":true,"result":[{"update_id":140254570,
+"message":{"message_id":1223,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1520685272,"text":"/help@setourbot","entities":[{"offset":0,"length":15,"type":"bot_command"}]}}]}
+
+2018-03-10 13:38:28:
+{"ok":true,"result":[{"update_id":140254570,
+"message":{"message_id":1223,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1520685272,"text":"/help@setourbot","entities":[{"offset":0,"length":15,"type":"bot_command"}]}}]}
+
+2018-03-10 13:42:33:
+{"ok":true,"result":[{"update_id":140254570,
+"message":{"message_id":1223,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1520685272,"text":"/help@setourbot","entities":[{"offset":0,"length":15,"type":"bot_command"}]}}]}
+
+2018-03-10 13:43:07:
+{"ok":true,"result":[{"update_id":140254570,
+"message":{"message_id":1223,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-GB"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1520685272,"text":"/help@setourbot","entities":[{"offset":0,"length":15,"type":"bot_command"}]}}]}
+
+2018-03-11 15:26:29:
+{"ok":true,"result":[{"update_id":140254572,
+"message":{"message_id":1244,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-us"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1520778363,"text":"/start@setourbot","entities":[{"offset":0,"length":16,"type":"bot_command"}]}}]}
+
+2018-03-11 15:26:59:
+{"ok":true,"result":[{"update_id":140254572,
+"message":{"message_id":1244,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-us"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1520778363,"text":"/start@setourbot","entities":[{"offset":0,"length":16,"type":"bot_command"}]}}]}
+
+2018-03-11 15:27:38:
+{"ok":true,"result":[{"update_id":140254572,
+"message":{"message_id":1244,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-us"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1520778363,"text":"/start@setourbot","entities":[{"offset":0,"length":16,"type":"bot_command"}]}}]}
+
+2018-03-11 15:28:53:
+{"ok":true,"result":[{"update_id":140254572,
+"message":{"message_id":1244,"from":{"id":190257574,"is_bot":false,"first_name":"Kolodi","username":"kolodim","language_code":"en-us"},"chat":{"id":-1001212888265,"title":"TG bots","type":"supergroup"},"date":1520778363,"text":"/start@setourbot","entities":[{"offset":0,"length":16,"type":"bot_command"}]}}]}
+

@@ -2,6 +2,7 @@
 include "tokens.php";
 include "telegram/lib.php";
 include "challonge/challonge.class.php";
+include "src/nosql.php";
 
 /*****************************************
  * CONFIGURATION
@@ -59,19 +60,23 @@ if (isset($telegramMessage["entities"])) {
     }
 }
 
+// get rid of bot username (it is automatically added when more than 1 bot is present in room)
+// for example "/start" command becomes "/start@setourbot"
+// so we just always explode the string on "@" symbol and consider only part before it as actual command
 $telegramCommand = explode("@", $telegramCommand)[0];
+// trim and lowercase all text after the command
 $telegramTextLowerTrimmed = trim(strtolower($telegramText));
+// For now bot works only if a command is specified
 if (!$telegramCommand || !in_array($telegramCommand, $commands)) {
     die("No command");
 }
 
 
 /*****************************************
- * Session
+ * User
  *****************************************/
-// TODO: set session timeout in server settings to something like 6-24 hours
-
-
+$nosql = new NoSQL();
+$userData = $nosql->UpdateTelegramUserData($telegramUser);
 
 /*****************************************
  * Command Definition

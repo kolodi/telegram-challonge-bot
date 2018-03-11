@@ -1,0 +1,9 @@
+{
+    "telegram_chat": {
+        "id": 0,
+        "title": "template room name",
+        "type": "supergroup"
+    },
+    "pendingTournament": {},
+    "runningTournaments": []
+}
