@@ -1,0 +1,6 @@
+
+/create [popup_name] - Create new popup with a name
+/join [IGN] - Register participants (automatically with tg username + IGN)
+/score [your_points - opponent_points] - report score 
+/opponent - get your current opponent
+/ppl - participants

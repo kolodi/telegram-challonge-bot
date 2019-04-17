@@ -1,0 +1,11 @@
+{
+  "name": "tgchallongebot",
+  "description": "Telegram Challonge Bot",
+  "author": {
+    "name": "Michele Kolodi"
+  },
+  "version": "0.1",
+  "dependencies": {
+    "node-telegram-bot-api": "1.1.3"
+  }
+}
