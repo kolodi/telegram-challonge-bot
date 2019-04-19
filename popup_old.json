@@ -1,30 +1,96 @@
 {
-	"id": 155,
-	"name": "Popup XXX",
+	"state": {
+		"creating_on_challonge": false,
+		"initialized": true
+	},
+	"id": 123,
 	"creator": {
 		"id": 190257574,
 		"is_bot": false,
 		"first_name": "Kolodi",
 		"username": "kolodim",
-		"language_code": "en"
+		"language_code": "it"
 	},
-	"state": {
-		"creating_on_challonge": false,
-		"initialized": true
-	},
-	"participants": [],
+	"name": "AAA",
+	"participants": [
+		{
+			"tgUser": {
+				"id": 124252447,
+				"is_bot": false,
+				"first_name": "TJ dubdub",
+				"username": "tjdubdub"
+			},
+			"ign": "TJ dubdub"
+		},
+		{
+			"tgUser": {
+				"id": 424849872,
+				"is_bot": false,
+				"first_name": "SET Colosal (alfredo)",
+				"username": "RealColly"
+			},
+			"ign": "SET Colosal"
+		},
+		{
+			"tgUser": {
+				"id": 205311421,
+				"is_bot": false,
+				"first_name": "Catalina",
+				"username": "CatVanPatton"
+			},
+			"ign": "TJ Catalina"
+		},
+		{
+			"tgUser": {
+				"id": 295743866,
+				"is_bot": false,
+				"first_name": "Shubham",
+				"last_name": "Sabharwal",
+				"username": "shubham1309"
+			},
+			"ign": "TJ Scout"
+		},
+		{
+			"tgUser": {
+				"id": 552370160,
+				"is_bot": false,
+				"first_name": "SD RYUSEI",
+				"username": "SD_RYUSEI"
+			},
+			"ign": "SD RYUSEI"
+		},
+		{
+			"tgUser": {
+				"id": 683421892,
+				"is_bot": false,
+				"first_name": "SET SamYou2Death",
+				"username": "SETSamYou2D3ath"
+			},
+			"ign": "SET SamYou2D3ath"
+		},
+		{
+			"tgUser": {
+				"id": 190257574,
+				"is_bot": false,
+				"first_name": "Kolodi",
+				"username": "kolodim",
+				"language_code": "en"
+			},
+			"ign": "GGG"
+		}
+	],
 	"tournament": {
-		"id": 5819477,
-		"name": "Popup XXX",
-		"url": "se_popup_155",
+		"id": 5819414,
+		"name": "AAA",
+		"url": "se_popup_123",
 		"description": "",
 		"tournament_type": "single elimination",
 		"started_at": null,
 		"completed_at": null,
 		"require_score_agreement": false,
 		"notify_users_when_matches_open": true,
-		"created_at": "2019-04-19T12:22:53.756-04:00",
-		"updated_at": "2019-04-19T12:22:53.756-04:00",
+		"created_at": "2019-04-19T21:34:03.327+05:30",
+		"updated_at": "2019-04-19T21:34:03.327+05:30",
 		"state": "pending",
 		"open_signup": false,
 		"notify_users_when_the_tournament_ends": true,
@@ -84,8 +150,8 @@
 		"registration_type": "free",
 		"description_source": "",
 		"subdomain": null,
-		"full_challonge_url": "https://challonge.com/se_popup_155",
-		"live_image_url": "https://challonge.com/se_popup_155.svg",
+		"full_challonge_url": "https://challonge.com/se_popup_123",
+		"live_image_url": "https://challonge.com/se_popup_123.svg",
 		"sign_up_url": null,
 		"review_before_finalizing": true,
 		"accepting_predictions": false,
@@ -94,5 +160,6 @@
 		"participants_swappable": true,
 		"team_convertable": false,
 		"group_stages_were_started": false
-	}
+	},
+	"participants_added": true
 }
