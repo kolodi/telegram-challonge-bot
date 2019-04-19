@@ -2,7 +2,6 @@ const TelegramBot = require('node-telegram-bot-api');
 const rp = require('request-promise');
 const fs = require('fs');
 
-
 const storeData = (data, path) => {
     try {
         fs.writeFileSync(path, data)
@@ -35,17 +34,18 @@ const getCurrentPopup = () => {
     return getData('popup.json');
 }
 
+const config = getData('config/config.json');
 
-// replace the value below with the Telegram token you receive from @BotFather
-const token = '500737250:AAHIPBP_fc3oGM1DkHIP3YQQkjvKcTvNjko'; //sepopbot
-const challongeToken = 'HSzlNUrtvEYmgHUWxUoaw1vCxl5fyWSKOWDSl4SU';
+const tgToken = config.tg_token;
+const challongeToken = config.challonge_token;
 const challongeBasePath = 'https://api.challonge.com/v1/';
 
 // Create a bot that uses 'polling' to fetch new updates
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(tgToken, { polling: true });
 
 
 const joinPopup = (msg, ign) => {
+    if(config.ignore_updates) return;
     let popup = getCurrentPopup();
 
     const chatId = msg.chat.id;
@@ -67,6 +67,7 @@ const joinPopup = (msg, ign) => {
 }
 
 const showList = (msg, withusernames = false) => {
+    if(config.ignore_updates) return;
     let popup = getData('popup.json');
     
     const chatId = msg.chat.id;
@@ -83,36 +84,36 @@ const showList = (msg, withusernames = false) => {
 }
 
 bot.onText(/\/create$/, (msg, match) => {
-
+    if(config.ignore_updates) return;
 
     
 });
 
 bot.onText(/\/ppl$/, (msg, match) => {
-
+    if(config.ignore_updates) return;
     showList(msg);
 });
 bot.onText(/\/list$/, (msg, match) => {
-
+    if(config.ignore_updates) return;
     showList(msg);
 });
 bot.onText(/\/rollcall$/, (msg, match) => {
-
+    if(config.ignore_updates) return;
     showList(msg, true);
 });
 
 
 bot.onText(/\/join (.+)/, (msg, match) => {
-
+    if(config.ignore_updates) return;
     joinPopup(msg, match[1]);
 });
 bot.onText(/\/in (.+)/, (msg, match) => {
-
+    if(config.ignore_updates) return;
     joinPopup(msg, match[1]);
 });
 
 bot.onText(/\/quit$/, (msg, match) => {
-
+    if(config.ignore_updates) return;
     let popup = getData('popup.json');
 
     const chatId = msg.chat.id;
@@ -130,7 +131,7 @@ bot.onText(/\/quit$/, (msg, match) => {
 });
 
 bot.onText(/\/addpplbulk$/, (msg, match) => {
-
+    if(config.ignore_updates) return;
     let popup = getData('popup.json');
 
     const chatId = msg.chat.id;
@@ -160,7 +161,7 @@ bot.onText(/\/addpplbulk$/, (msg, match) => {
 });
 
 bot.onText(/\/begin$/, (msg, match) => {
-
+    if(config.ignore_updates) return;
     let popup = getData('popup.json');
 
     const chatId = msg.chat.id;
@@ -198,6 +199,7 @@ bot.onText(/\/begin$/, (msg, match) => {
 });
 
 bot.onText(/\/create (.+)/, (msg, match) => {
+    if(config.ignore_updates) return;
     const chatId = msg.chat.id;
 
     let popup = getData('popup.json');
@@ -221,6 +223,7 @@ bot.onText(/\/create (.+)/, (msg, match) => {
 
 // Matches "/tournaments [whatever]"
 bot.onText(/\/tournaments (.+)/, (msg, match) => {
+    if(config.ignore_updates) return;
     // 'msg' is the received Message from Telegram
     // 'match' is the result of executing the regexp above on the text content
     // of the message
