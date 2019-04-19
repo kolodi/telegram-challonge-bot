@@ -12,16 +12,6 @@
 	"participants": [
 		{
 			"tgUser": {
-				"id": 190257574,
-				"is_bot": false,
-				"first_name": "Kolodi",
-				"username": "kolodim",
-				"language_code": "it"
-			},
-			"ign": "SD Kolodi"
-		},
-		{
-			"tgUser": {
 				"id": 124252447,
 				"is_bot": false,
 				"first_name": "TJ dubdub",
@@ -74,6 +64,16 @@
 				"username": "SETSamYou2D3ath"
 			},
 			"ign": "SET SamYou2D3ath"
+		},
+		{
+			"tgUser": {
+				"id": 190257574,
+				"is_bot": false,
+				"first_name": "Kolodi",
+				"username": "kolodim",
+				"language_code": "en"
+			},
+			"ign": "GGG"
 		}
 	],
 	"tournament": {

@@ -90,13 +90,14 @@ const quitPopup = (msg) => {
     let response = `@${msg.from.username} is not in participants list`;
     
     for(let i = 0; i < ppl.length; i++) {
-        if(ppl[i].id == msg.from.id) {
+        if(ppl[i].tgUser.id == msg.from.id) {
             response = `@${msg.from.username} left popup`;
             ppl.splice(i, 1);
         }
     }
 
     bot.sendMessage(chatId, response);
+    savePopup(popup);
 }
 
 bot.onText(/\/create$/, (msg, match) => {
@@ -127,7 +128,7 @@ bot.onText(/\/in (.+)/, (msg, match) => {
     if(config.ignore_updates) return;
     joinPopup(msg, match[1]);
 });
-bot.onText(/\/out (.+)/, (msg, match) => {
+bot.onText(/\/out$/, (msg, match) => {
     if(config.ignore_updates) return;
     quitPopup(msg);
 });
