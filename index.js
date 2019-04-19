@@ -100,9 +100,18 @@ const quitPopup = (msg) => {
     savePopup(popup);
 }
 
+const helpText = (msg) => {
+    let helpString = fs.readFileSync('help.txt');
+    bot.sendMessage(msg.chat.id, helpString);    
+}
+
+bot.onText(/\/help$/, (msg, match) => {
+    if(config.ignore_updates) return;
+    helpText(msg);
+});
+
 bot.onText(/\/create$/, (msg, match) => {
     if(config.ignore_updates) return;
-
     
 });
 
