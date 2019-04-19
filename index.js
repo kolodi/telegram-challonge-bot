@@ -12,7 +12,7 @@ const storeData = (data, path) => {
 
 const saveJson = (data, path) => {
     try {
-        fs.writeFileSync(path, JSON.stringify(data))
+        fs.writeFileSync(path, JSON.stringify(data, null, "\t"))
     } catch (err) {
         console.error(err)
     }
@@ -83,6 +83,22 @@ const showList = (msg, withusernames = false) => {
     bot.sendMessage(chatId, response);
 }
 
+const quitPopup = (msg) => {
+    let popup = getData('popup.json');
+    let ppl = popup.participants;
+    const chatId = msg.chat.id;
+    let response = `@${msg.from.username} is not in participants list`;
+    
+    for(let i = 0; i < ppl.length; i++) {
+        if(ppl[i].id == msg.from.id) {
+            response = `@${msg.from.username} left popup`;
+            ppl.splice(i, 1);
+        }
+    }
+
+    bot.sendMessage(chatId, response);
+}
+
 bot.onText(/\/create$/, (msg, match) => {
     if(config.ignore_updates) return;
 
@@ -110,6 +126,10 @@ bot.onText(/\/join (.+)/, (msg, match) => {
 bot.onText(/\/in (.+)/, (msg, match) => {
     if(config.ignore_updates) return;
     joinPopup(msg, match[1]);
+});
+bot.onText(/\/out (.+)/, (msg, match) => {
+    if(config.ignore_updates) return;
+    quitPopup(msg);
 });
 
 bot.onText(/\/quit$/, (msg, match) => {
@@ -253,5 +273,6 @@ bot.on('message', (msg) => {
     //    .catch(function (err) {
     //        console.log(err);
     //    });
-    saveJson(msg, 'last_message.json');
+
+    saveJson(msg, `messages_log/${msg.message_id}.json`);
 });
