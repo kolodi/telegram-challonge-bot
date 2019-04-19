@@ -163,9 +163,19 @@ const getPending = () => {
         var options = {
             method: 'GET',
             uri: `${challongeBasePath}tournaments.json?api_key=${challongeToken}&state=pending&created_after=${dateString}`,
+            json: true
         };
 
-        rp(options).then(resolve).catch(reject);
+        rp(options)
+            .then(tournaments => {
+                if(tournaments.length === 0) {
+                    resolve(false);
+                } else {
+                    let sorted = tournaments.sort((t1, t2) => new Date(t1.tournament.created_at) - new Date(t2.tournament.created_at))
+                    resolve(sorted[0].tournament);
+                }
+            })
+            .catch(reject);
     });
 }
 
@@ -322,14 +332,14 @@ bot.onText(/\/close$/, (msg, match) => {
 
 bot.onText(/\/create (.+)/, (msg, match) => {
     if (botBlock()) return;
-    
+
     createNew(msg, match);
 });
 
 bot.onText(/\/getpending$/, (msg, match) => {
     if (botBlock()) return;
-    
-    getPending().then(res => storeData(res, 'logs/pending.json'));
+
+    getPending().then(res => saveJson(res, 'logs/pending.json'));
 });
 
 
