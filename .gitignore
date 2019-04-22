@@ -3,3 +3,4 @@ config/*
 node_modules
 messages_log/*
 popup.json
+logs/*
