@@ -33,9 +33,9 @@ const run = async () => {
     // logger.logToFile(`logs/challonge/tournaments/${t.tournament.id}.json`, t)
 
     let t = await challonge.matches.index({ url: "sunday_special_" })
-    logger.logToFile(`logs/challonge/matches/index.json`, t)
+    //logger.logToFile(`logs/challonge/matches/index.json`, t)
 
-    // console.log(t)
+    console.log(t)
 }
 
 run()
