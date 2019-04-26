@@ -3,7 +3,7 @@ process.env.NTBA_FIX_319 = "promise fix"
 const config = require('./config/config')
 const Challonge = require('./challonge')
 const TelegramBot = require('node-telegram-bot-api')
-const logger = require('./logger')
+const logger = require('./fs.utils')
 
 const challonge = new Challonge(config.challonge_token)
 
