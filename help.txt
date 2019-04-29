@@ -1,18 +1,18 @@
-create - create new popup, you can also specify a name
-name - set the name of popup
-join - register participants, you can also specify your IGN
-score - report score, format: [your_points - opponent_points]
-confirm - confirm reported score
-opponent - get your current opponent
-ppl - participants
-out - quit popup
-in - same as join
-ign - register own In Game Name
-begin - begin popup with participants (min 4)
-close - close finished popup
-winner - get the winner of the popup
-winners - get a list of winners for the popup
-cancel - cancel an action
-destroy - cancel popup
-kick - kick that registered user from popup
-help - display this help
+/create - create new popup, you can also specify a name
+/name - set the name of popup
+/join - register participants, you can also specify your IGN
+/score - report score, format: [your_points - opponent_points]
+/confirm - confirm reported score
+/opponent - get your current opponent
+/ppl - participants
+/out - quit popup
+/in - same as join
+/ign - register own In Game Name
+/begin - begin popup with participants (min 4)
+/close - close finished popup
+/winner - get the winner of the popup
+/winners - get a list of winners for the popup
+/cancel - cancel an action
+/destroy - cancel popup
+/kick - kick that registered user from popup
+/help - display this help

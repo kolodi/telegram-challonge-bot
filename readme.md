@@ -1,0 +1,1 @@
+Bot will remember users and their IGNs even between sessions

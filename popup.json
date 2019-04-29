@@ -1,6 +1,4 @@
 {
-	"id": 155,
-	"name": "Popup XXX",
 	"url": "auto_popup_218",
 	"creator": {
 		"id": 190257574,
@@ -9,7 +7,66 @@
 		"username": "kolodim",
 		"language_code": "en"
 	},
-	"participants": [],
+	"participants": [
+		{
+			"tg_user": {
+				"id": 771559050,
+				"is_bot": false,
+				"first_name": "SET",
+				"last_name": "Kass1221",
+				"username": "Kass1221"
+			},
+			"ign": "SET Kass1221",
+			"undergoingOperation": null,
+			"challonge_id": 96558950
+		},
+		{
+			"tg_user": {
+				"id": 295743866,
+				"is_bot": false,
+				"first_name": "Shubham",
+				"last_name": "Sabharwal",
+				"username": "shubham1309"
+			},
+			"ign": "TJ Scout",
+			"undergoingOperation": null,
+			"challonge_id": 96559234
+		},
+		{
+			"tg_user": {
+				"id": 424849872,
+				"is_bot": false,
+				"first_name": "SET Colosal (alfredo)",
+				"username": "RealColly"
+			},
+			"ign": "SET Colosal",
+			"undergoingOperation": null,
+			"challonge_id": 96559370
+		},
+		{
+			"tg_user": {
+				"id": 190257574,
+				"is_bot": false,
+				"first_name": "Kolodi",
+				"username": "kolodim",
+				"language_code": "en"
+			},
+			"ign": "SD Kolodi",
+			"undergoingOperation": null,
+			"challonge_id": 96559998
+		},
+		{
+			"tg_user": {
+				"id": 459993965,
+				"is_bot": false,
+				"first_name": "BT Yago",
+				"username": "BTYago"
+			},
+			"ign": "BT Yago",
+			"undergoingOperation": null,
+			"challonge_id": 96560264
+		}
+	],
 	"users": [
 		{
 			"tg_user": {
@@ -19,7 +76,98 @@
 				"username": "kolodim",
 				"language_code": "en"
 			},
+			"ign": "SD Kolodi",
+			"undergoingOperation": null,
+			"challonge_id": 96559998
+		},
+		{
+			"tg_user": {
+				"id": 771559050,
+				"is_bot": false,
+				"first_name": "SET",
+				"last_name": "Kass1221",
+				"username": "Kass1221"
+			},
+			"ign": "SET Kass1221",
+			"undergoingOperation": null,
+			"challonge_id": 96558950
+		},
+		{
+			"tg_user": {
+				"id": 494653366,
+				"is_bot": false,
+				"first_name": "TJ FallenAngel",
+				"username": "phantomtroupe"
+			},
+			"ign": "TJ FallenAngel",
 			"undergoingOperation": null
+		},
+		{
+			"tg_user": {
+				"id": 295743866,
+				"is_bot": false,
+				"first_name": "Shubham",
+				"last_name": "Sabharwal",
+				"username": "shubham1309"
+			},
+			"ign": "TJ Scout",
+			"undergoingOperation": null,
+			"challonge_id": 96559234
+		},
+		{
+			"tg_user": {
+				"id": 294135249,
+				"is_bot": false,
+				"first_name": "Chuck",
+				"last_name": "Morrison",
+				"username": "buttthead",
+				"language_code": "it"
+			},
+			"ign": "Chuck Morrison",
+			"undergoingOperation": null
+		},
+		{
+			"tg_user": {
+				"id": 424849872,
+				"is_bot": false,
+				"first_name": "SET Colosal (alfredo)",
+				"username": "RealColly"
+			},
+			"ign": "SET Colosal",
+			"undergoingOperation": null,
+			"challonge_id": 96559370
+		},
+		{
+			"tg_user": {
+				"id": 205311421,
+				"is_bot": false,
+				"first_name": "Catalina",
+				"username": "CatVanPatton"
+			},
+			"ign": "TJ Catalina",
+			"undergoingOperation": null,
+			"challonge_id": 96559620
+		},
+		{
+			"tg_user": {
+				"id": 262462241,
+				"is_bot": false,
+				"first_name": "Inevitable",
+				"username": "lnevitable"
+			},
+			"ign": "TJ Inevitable",
+			"undergoingOperation": null
+		},
+		{
+			"tg_user": {
+				"id": 459993965,
+				"is_bot": false,
+				"first_name": "BT Yago",
+				"username": "BTYago"
+			},
+			"ign": "BT Yago",
+			"undergoingOperation": null,
+			"challonge_id": 96560264
 		}
 	]
 }

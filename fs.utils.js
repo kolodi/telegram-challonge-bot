@@ -10,6 +10,10 @@ const logToFile = (path, data, stringify = true) => {
         fs.writeFileSync(path, data)
 }
 
+const getText = (path) => {
+    return fs.readFileSync(path)
+}
+
 const getJson = (path) => {
     return JSON.parse(fs.readFileSync(path))
 }
@@ -29,3 +33,4 @@ const debug = {
 module.exports.logToFile = logToFile
 module.exports.getJson = getJson
 module.exports.saveJson = saveJson
+module.exports.getText = getText
